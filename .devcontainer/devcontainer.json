@@ -1,20 +1,7 @@
 {
     "name": "Nekogram-Android",
-    "image": "mcr.microsoft.com/devcontainers/java:1-17-bullseye",
-    "features": {
-        "ghcr.io/devcontainers/features/git:1": {},
-        "ghcr.io/devcontainers/features/java:1": {
-            "version": "17",
-            "jdkDistro": "ms"
-        },
-        // This feature installs the Android SDK, NDK, and Command Line Tools automatically
-        "ghcr.io/mobiledevops/devcontainer-features/android-sdk:1": {
-            "sdkVersion": "34",
-            "buildToolsVersion": "34.0.0",
-            "ndkVersion": "27.0.12077973",
-            "cmakeVersion": "3.22.1",
-            "acceptLicense": true
-        }
+    "build": {
+        "dockerfile": "Dockerfile"
     },
     "customizations": {
         "vscode": {
@@ -24,6 +11,5 @@
             ]
         }
     },
-    "remoteUser": "vscode",
-    "postCreateCommand": "sudo apt-get update && sudo apt-get install -y ninja-build"
+    "remoteUser": "vscode"
 }
