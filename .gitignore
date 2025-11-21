@@ -1,14 +1,58 @@
-local.properties
+# --- Android & Gradle Build Output ---
 .gradle/
 build/
-.cxx/
-*.iml
-.idea/
-*.bak
-*.jks
-key.properties
-*.apk
-*.aar
-*.so
+**/build/
 captures/
+.navigation/
+*.ap_
+*.dex
+*.class
+
+# --- C++ / Native Build (CRITICAL for Telegram) ---
+# These folders contain massive temporary object files
+.cxx/
 .externalNativeBuild/
+**/cmake_build_command.txt
+**/.cxx/
+**/.externalNativeBuild/
+
+# --- Local Configuration (Do not upload) ---
+local.properties
+gradle.properties
+# (Only ignore gradle.properties if it contains secrets, 
+# otherwise keep it but remove the proxy settings lines)
+
+# --- Secrets & Keys ---
+key.properties
+google-services.json
+**/*.jks
+**/*.keystore
+**/Extra.java
+
+# --- IDE Settings ---
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# --- Binaries & Large Files ---
+# Prevents "File too large" errors on push
+*.apk
+*.aab
+*.so
+*.o
+
+# --- OS Junk ---
+.DS_Store
+Thumbs.dbjdk-21.0.4+7/
+microsoft-jdk-21.0.4-linux-x64.tar.gz
+gh.tar.gz
+
+# Ignore local JDK and Tools
+jdk-21.0.4+7/
+microsoft-jdk-21.0.4-linux-x64.tar.gz
+gh.tar.gz
+microsoft-jdk-21.0.4-linux-x64.tar.gz
+*.apk
+*.apk
+*.apk

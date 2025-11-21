@@ -29,6 +29,7 @@ import tw.nekomimi.nekogram.translator.Translator;
 import tw.nekomimi.nekogram.translator.TranslatorApps;
 
 public class NekoConfig {
+    public static boolean newChatDesign = true;
     //TODO: refactor
 
     public static final int TITLE_TYPE_TEXT = 0;

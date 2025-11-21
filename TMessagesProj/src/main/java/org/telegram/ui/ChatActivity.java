@@ -11396,7 +11396,7 @@ public class ChatActivity extends BaseFragment implements
             @Override
             public void setTranslationY(float translationY) {
                 super.setTranslationY(translationY);
-                updatePinnedLineViewTranslation();
+                // updatePinnedLineViewTranslation();
             }
         };
         if (NekoConfig.newChatDesign) {
