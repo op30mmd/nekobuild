@@ -1,0 +1,100 @@
+    }
+
+    public static void setAnimatedColor(int key, int value) {
+        if (animatingColors == null) {
+            return;
+        }
+        animatingColors.put(key, value);
+    }
+
+    public static int getDefaultAccentColor(int key) {
+        int index = currentColorsNoAccent.indexOfKey(key);
+        if (index >= 0) {
+            int color = currentColorsNoAccent.valueAt(index);
+            ThemeAccent accent = currentTheme.getAccent(false);
+            if (accent == null) {
+                return 0;
+            }
+            float[] hsvTemp1 = getTempHsv(1);
+            float[] hsvTemp2 = getTempHsv(2);
+            Color.colorToHSV(currentTheme.accentBaseColor, hsvTemp1);
+            Color.colorToHSV(accent.accentColor, hsvTemp2);
+            return changeColorAccent(hsvTemp1, hsvTemp2, color, currentTheme.isDark(), color);
+        }
+        return 0;
+    }
+
+    public static int getNonAnimatedColor(int key) {
+        return getColor(key, null, true);
+    }
+
+    public static int getColor(int key, ResourcesProvider provider) {
+        if (provider != null) {
+            return provider.getColor(key);
+        }
+        return getColor(key);
+    }
+
+    public static int getColor(int key) {
+        return getColor(key, null, false);
+    }
+
+    public static int getColor(int key, boolean[] isDefault) {
+        return getColor(key, isDefault, false);
+    }
+
+    public static int getColor(int key, boolean[] isDefault, boolean ignoreAnimation) {
+        if (!ignoreAnimation && animatingColors != null) {
+            int index = animatingColors.indexOfKey(key);
+            if (index >= 0) {
+                return animatingColors.valueAt(index);
+            }
+        }
+        if (serviceBitmapShader != null && (key_chat_serviceText == key || key_chat_serviceLink == key || key_chat_serviceIcon == key
+                || key_chat_stickerReplyLine == key || key_chat_stickerReplyNameText == key || key_chat_stickerReplyMessageText == key)) {
+            return 0xffffffff;
+        }
+        if (currentTheme == defaultTheme) {
+            boolean useDefault;
+            if (isMyMessagesBubbles(key)) {
+                useDefault = currentTheme.isDefaultMyMessagesBubbles();
+            } else if (isMyMessages(key)) {
+                useDefault = currentTheme.isDefaultMyMessages();
+            } else if (key_chat_wallpaper == key || key_chat_wallpaper_gradient_to1 == key || key_chat_wallpaper_gradient_to2 == key || key_chat_wallpaper_gradient_to3 == key) {
+                useDefault = false;
+            } else {
+                useDefault = currentTheme.isDefaultMainAccent();
+            }
+            if (useDefault) {
+                if (key == key_chat_serviceBackground) {
+                    return serviceMessageColor;
+                } else if (key == key_chat_serviceBackgroundSelected) {
+                    return serviceSelectedMessageColor;
+                }
+                return getDefaultColor(key);
+            }
+        }
+        int index = currentColors.indexOfKey(key);
+        int color;
+        if (index < 0) {
+            int fallbackKey = fallbackKeys.get(key, -1);
+            if (fallbackKey != -1) {
+                int fallbackIndex = currentColors.indexOfKey(fallbackKey);
+                if (fallbackIndex >= 0) {
+                    return currentColors.valueAt(fallbackIndex);
+                }
+            }
+
+            if (isDefault != null) {
+                isDefault[0] = true;
+            }
+            if (key == key_chat_serviceBackground) {
+                return serviceMessageColor;
+            } else if (key == key_chat_serviceBackgroundSelected) {
+                return serviceSelectedMessageColor;
+            }
+            return getDefaultColor(key);
+        } else {
+            color = currentColors.valueAt(index);
+        }
+        if (key_windowBackgroundWhite == key || key_windowBackgroundGray == key || key_actionBarDefault == key || key_actionBarDefaultArchived == key) {
